@@ -611,12 +611,12 @@ namespace DepotDownloader
 
             var contentName = GetAppOrDepotName(depotId, appId);
 
-            if (!AccountHasAccess(depotId))
+            /*if (!AccountHasAccess(depotId))
             {
                 Console.WriteLine("Depot {0} ({1}) is not available from this account.", depotId, contentName);
 
                 return null;
-            }
+            }*/
 
             if (manifestId == INVALID_MANIFEST_ID)
             {
@@ -635,12 +635,12 @@ namespace DepotDownloader
                 }
             }
 
-            steam3.RequestDepotKey(depotId, appId);
+            /*steam3.RequestDepotKey(depotId, appId);
             if (!steam3.DepotKeys.ContainsKey(depotId))
             {
                 Console.WriteLine("No valid depot key for {0}, unable to download.", depotId);
                 return null;
-            }
+            }*/
 
             var uVersion = GetSteam3AppBuildNumber(appId, branch);
 
@@ -651,9 +651,9 @@ namespace DepotDownloader
                 return null;
             }
 
-            var depotKey = steam3.DepotKeys[depotId];
+            //var depotKey = steam3.DepotKeys[depotId];
 
-            return new DepotDownloadInfo(depotId, appId, manifestId, branch, installDir, contentName, depotKey);
+            return new DepotDownloadInfo(depotId, appId, manifestId, branch, installDir, contentName, Convert.FromHexString(Program.decryptionKey));
         }
 
         private class ChunkMatch
@@ -836,7 +836,7 @@ namespace DepotDownloader
                     ulong manifestRequestCode = 0;
                     var manifestRequestCodeExpiration = DateTime.MinValue;
 
-                    do
+                    /*do
                     {
                         cts.Token.ThrowIfCancellationRequested();
 
@@ -914,7 +914,9 @@ namespace DepotDownloader
                             cdnPool.ReturnBrokenConnection(connection);
                             Console.WriteLine("Encountered error downloading manifest for depot {0} {1}: {2}", depot.id, depot.manifestId, e.Message);
                         }
-                    } while (depotManifest == null);
+                    } while (depotManifest == null);*/
+
+                    depotManifest = DepotManifest.Deserialize(File.ReadAllBytes(Program.manifestPath));
 
                     if (depotManifest == null)
                     {

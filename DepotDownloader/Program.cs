@@ -13,6 +13,9 @@ namespace DepotDownloader
 {
     class Program
     {
+        public static string decryptionKey;
+        public static string manifestPath;
+
         static int Main(string[] args)
             => MainAsync(args).GetAwaiter().GetResult();
 
@@ -215,6 +218,8 @@ namespace DepotDownloader
 
                 var depotIdList = GetParameterList<uint>(args, "-depot");
                 var manifestIdList = GetParameterList<ulong>(args, "-manifest");
+                decryptionKey = GetParameter<string>(args, "-decryptionkey");
+                manifestPath = GetParameter<string>(args, "-manifestpath");
                 if (manifestIdList.Count > 0)
                 {
                     if (depotIdList.Count != manifestIdList.Count)
