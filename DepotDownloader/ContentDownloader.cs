@@ -475,7 +475,7 @@ namespace DepotDownloader
             if (steam3 != null)
                 steam3.RequestAppInfo(appId);
 
-            if (!AccountHasAccess(appId))
+            /*if (!AccountHasAccess(appId))
             {
                 if (steam3.RequestFreeAppLicense(appId))
                 {
@@ -489,7 +489,7 @@ namespace DepotDownloader
                     var contentName = GetAppOrDepotName(INVALID_DEPOT_ID, appId);
                     throw new ContentDownloaderException(String.Format("App {0} ({1}) is not available from this account.", appId, contentName));
                 }
-            }
+            }*/
 
             var hasSpecificDepots = depotManifestIds.Count > 0;
             var depotIdsFound = new List<uint>();
